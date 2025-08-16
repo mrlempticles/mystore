@@ -1,80 +1,50 @@
 // E-commerce Store JavaScript
 
 // Global variables
-let products = [];
 let cart = [];
-let whatsappNumber = "+1234567890"; // Default number - change this to your WhatsApp
+let whatsappNumber = "+919876543210"; // <-- put your WhatsApp number here
 
-// Initialize with sample products
+// Hard-coded products
+let products = [
+    {
+        id: 1,
+        name: "Bamboo Heat-Resistant Coaster Set",
+        price: 399,
+        description: `Crafted for elegance. Designed for strength. Built for everyday magic. 
+        Give your kitchen a premium touch with this laser-engraved, eco-friendly, ultra-slim bamboo coaster set. 
+        Heat Resistant up to 250°C, Anti-Slip Rubber Grip, 20cm Extra-Wide Surface, 100% Sustainable Bamboo.`,
+        image: "https://images.meesho.com/images/products/560397558/zy2h7_512.avif?width=512"
+    },
+    {
+        id: 2,
+        name: "Stainless Steel Multi-Purpose 2 Tier Kitchen Rack",
+        price: 399,
+        description: `Stainless Steel Multi-Purpose 2 Tier Kitchen Rack | Spice Dabba Rack | Kitchen Organizer | Cosmetic Holder.
+        Perfect for organizing pasta, condiments, spices, packets & more. Durable stainless steel build.`,
+        image: "https://images.meesho.com/images/products/424679691/zptlr_512.avif?width=512"
+    },
+    {
+        id: 3,
+        name: "Golden Spoon Set",
+        price: 299,
+        description: `Golden Spoon Set – Coffee & Dessert Spoons (Set of 4). 
+        Made of stainless steel with elegant gold finish. Perfect for tableware and gifting.`,
+        image: "https://images.meesho.com/images/products/554338523/i2p0s_512.avif?width=512"
+    },
+    {
+        id: 4,
+        name: "Washing Gloves",
+        price: 299,
+        description: `Magic Silicone Dish Washing Gloves – multipurpose gloves for kitchen, dishwashing, pet grooming, car wash & more. 
+        Durable silicone with anti-slip design.`,
+        image: "https://images.meesho.com/images/products/468316392/l3px1_512.avif?width=512"
+    }
+];
 
+// Initialize Store
 function initializeStore() {
- 
-
-    products = JSON.parse(localStorage.getItem('storeProducts')) || [];
-    whatsappNumber = localStorage.getItem('whatsappNumber') || "+1234567890";
-    
-    document.getElementById('whatsappNumber').value = whatsappNumber;
     displayProducts();
     updateCartCount();
-}
-
-// Admin functions
-const ADMIN_PASSWORD = "PUNCKROCK";
-
-function toggleAdmin() {
-    const form = document.getElementById('adminForm');
-
-    if (!form.classList.contains('active')) {
-        // Ask for password before opening
-        const enteredPassword = prompt("🔒 Enter admin password:");
-        if (enteredPassword === ADMIN_PASSWORD) {
-            form.classList.add('active');
-        } else {
-            alert("❌ Wrong password!");
-        }
-    } else {
-        // Close if already open
-        form.classList.remove('active');
-    }
-}
-function addProduct() {
-    const name = document.getElementById('productName').value;
-    const price = parseFloat(document.getElementById('productPrice').value);
-    const description = document.getElementById('productDescription').value;
-    const image = document.getElementById('productImage').value;
-
-    if (!name || !price || !description) {
-        alert('⚠️ Please fill in all required fields');
-        return;
-    }
-
-    const newProduct = {
-        id: Date.now(),
-        name,
-        price,
-        description,
-        image: image || '📦'
-    };
-
-    products.push(newProduct);
-    localStorage.setItem('storeProducts', JSON.stringify(products));
-    
-    // Clear form
-    document.getElementById('productName').value = '';
-    document.getElementById('productPrice').value = '';
-    document.getElementById('productDescription').value = '';
-    document.getElementById('productImage').value = '';
-    
-    displayProducts();
-    alert('✅ Product added successfully!');
-}
-
-function deleteProduct(id) {
-    if (confirm('❓ Are you sure you want to delete this product?')) {
-        products = products.filter(p => p.id !== id);
-        localStorage.setItem('storeProducts', JSON.stringify(products));
-        displayProducts();
-    }
 }
 
 // Display products
@@ -86,14 +56,13 @@ function displayProducts() {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         productCard.innerHTML = `
-            <button class="delete-product-btn" onclick="deleteProduct(${product.id})" title="Delete Product">×</button>
             <div class="product-image">
-                ${product.image.startsWith('http') ? `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">` : product.image}
+                <img src="${product.image}" alt="${product.name}">
             </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
                 <div class="product-description">${product.description}</div>
-                <div class="product-price">₹${product.price.toFixed(2)}</div>
+                <div class="product-price">₹${product.price}</div>
                 <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
                     🛒 Add to Cart
                 </button>
@@ -115,7 +84,7 @@ function addToCart(productId) {
         }
         updateCartCount();
         
-        // Visual feedback
+        // Button feedback
         const btn = event.target;
         const originalText = btn.innerHTML;
         btn.innerHTML = '✅ Added!';
@@ -185,7 +154,7 @@ function displayCart() {
         cartItem.innerHTML = `
             <div>
                 <div style="font-weight: 600;">${item.name}</div>
-                <div style="color: #666; font-size: 0.9rem;">₹${item.price.toFixed(2)} each</div>
+                <div style="color: #666; font-size: 0.9rem;">₹${item.price} each</div>
             </div>
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -193,14 +162,14 @@ function displayCart() {
                     <span style="font-weight: 600;">${item.quantity}</span>
                     <button onclick="updateQuantity(${item.id}, 1)" style="background: #2ed573; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer;">+</button>
                 </div>
-                <div style="font-weight: 600; color: #667eea;">₹${itemTotal.toFixed(2)}</div>
+                <div style="font-weight: 600; color: #667eea;">₹${itemTotal}</div>
                 <button onclick="removeFromCart(${item.id})" style="background: #ff4757; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 5px; cursor: pointer;" title="Remove item">🗑️</button>
             </div>
         `;
         cartItems.appendChild(cartItem);
     });
 
-    cartTotal.textContent = `Total: ₹${total.toFixed(2)}`;
+    cartTotal.textContent = `Total: ₹${total}`;
     checkoutForm.style.display = 'grid';
 }
 
@@ -216,10 +185,8 @@ function placeOrder() {
         return;
     }
 
-    // Calculate total
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-    // Generate receipt
     let receipt = `🧾 *NEW ORDER RECEIVED*\n\n`;
     receipt += `👤 *Customer Information:*\n`;
     receipt += `Name: ${name}\n`;
@@ -230,38 +197,33 @@ function placeOrder() {
     
     cart.forEach(item => {
         receipt += `• ${item.name}\n`;
-        receipt += `  Price: ₹${item.price.toFixed(2)} x ${item.quantity} = ₹${(item.price * item.quantity).toFixed(2)}\n`;
+        receipt += `  Price: ₹${item.price} x ${item.quantity} = ₹${(item.price * item.quantity)}\n`;
     });
     
-    receipt += `\n💰 *Total Amount: ₹${total.toFixed(2)}*\n\n`;
+    receipt += `\n💰 *Total Amount: ₹${total}*\n\n`;
     receipt += `📅 Order Date: ${new Date().toLocaleString()}\n`;
     receipt += `🌐 Ordered from: ${window.location.href}`;
 
-    // Send to WhatsApp
     const whatsappUrl = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${encodeURIComponent(receipt)}`;
     window.open(whatsappUrl, '_blank');
 
-    // Clear cart and show success
     cart = [];
     updateCartCount();
     
-    // Clear form
     document.getElementById('customerName').value = '';
     document.getElementById('customerEmail').value = '';
     document.getElementById('customerPhone').value = '';
     document.getElementById('customerAddress').value = '';
     
-    // Show success message
     document.getElementById('successMessage').classList.add('active');
     document.getElementById('checkoutForm').style.display = 'none';
     
-    // Auto close after 5 seconds
     setTimeout(() => {
         closeCart();
     }, 5000);
 }
 
-// Close modal when clicking outside
+// Close modal on outside click
 window.onclick = function(event) {
     const modal = document.getElementById('cartModal');
     if (event.target === modal) {
@@ -269,7 +231,7 @@ window.onclick = function(event) {
     }
 }
 
-// Initialize store when page loads
+// Initialize store
 window.onload = function() {
     initializeStore();
 }
