@@ -2,7 +2,7 @@
 
 // Global variables
 let cart = [];
-let whatsappNumber = "+919876543210"; // <-- put your WhatsApp number here
+let whatsappNumber = "+919871978700"; // <-- put your WhatsApp number here
 
 // Hard-coded products
 let products = [
