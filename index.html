@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Store - Premium Products</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Kapoorss2</div>
+                <button class="cart-btn" onclick="openCart()">
+                    🛒 Cart
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Admin Panel -->
+        <div class="admin-panel">
+            <button class="admin-toggle" onclick="toggleAdmin()">👨‍💼 Admin Panel</button>
+            
+            <div class="admin-form" id="adminForm">
+                <div class="form-group">
+                    <label>WhatsApp Number (with country code)</label>
+                    <input type="tel" id="whatsappNumber" placeholder="+1234567890" value="+1234567890">
+                    <button class="update-whatsapp-btn" onclick="updateWhatsApp()">Update WhatsApp</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="productName" placeholder="Enter product name">
+                </div>
+
+                <div class="form-group">
+                    <label>Product Price (₹)</label>
+                    <input type="number" id="productPrice" placeholder="29.99" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label>Product Description</label>
+                    <textarea id="productDescription" placeholder="Enter product description" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Image URL</label>
+                    <input type="url" id="productImage" placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="form-group">
+                    <button class="add-product-btn" onclick="addProduct()">➕ Add Product</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="products-section">
+            <h2 class="section-title">✨ Featured Products</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🛒 Your Cart</h3>
+                <button class="close-btn" onclick="closeCart()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div class="cart-total" id="cartTotal">Total: $0.00</div>
+                
+                <div class="checkout-form" id="checkoutForm" style="display: none;">
+                    <h4>📋 Checkout Information</h4>
+                    <input type="text" id="customerName" placeholder="Full Name" required>
+                    <input type="email" id="customerEmail" placeholder="Email Address" required>
+                    <input type="tel" id="customerPhone" placeholder="Phone Number" required>
+                    <textarea id="customerAddress" placeholder="Delivery Address" rows="3" required></textarea>
+                    <button class="checkout-btn" onclick="placeOrder()">🚀 Place Order</button>
+                </div>
+                
+                <div class="success-message" id="successMessage">
+                    ✅ Order placed successfully! Receipt sent to WhatsApp.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

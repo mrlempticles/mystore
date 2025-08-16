@@ -1,0 +1,9 @@
+# E-commerce Store Requirements
+# No external dependencies needed for the core functionality
+# Python standard library only
+
+# Optional: For enhanced local development
+# flask==2.3.3  # Alternative web server (uncomment if you prefer Flask)
+
+# For production deployment (optional)
+# gunicorn==21.2.0  # For production server deployment
